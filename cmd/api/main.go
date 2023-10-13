@@ -21,13 +21,6 @@ type application struct {
 	logger *log.Logger
 }
 
-func (app application) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
-	cfg := app.config
-	fmt.Fprintln(w, "status: OK")
-	fmt.Fprintf(w, "env: %s\n", cfg.env)
-	fmt.Fprintf(w, "version: %s\n", version)
-}
-
 func main() {
 	var cfg config
 

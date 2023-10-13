@@ -7,7 +7,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func (application) notImpletedYetHandler(handlerName string) http.HandlerFunc {
+func (application) notImplementedYetHandler(handlerName string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		if id := chi.URLParam(r, "id"); id != "" {
@@ -25,12 +25,12 @@ func (app application) routes() chi.Router {
 		r.Get("/healthcheck", app.healthcheckHandler)
 
 		r.Route("/movies", func(r chi.Router) {
-			r.Get("/", app.notImpletedYetHandler("listMovies"))
-			r.Post("/", app.notImpletedYetHandler("createMovie"))
+			r.Get("/", app.notImplementedYetHandler("listMovies"))
+			r.Post("/", app.notImplementedYetHandler("createMovie"))
 
-			r.Get("/{id}", app.notImpletedYetHandler("showMovie"))
-			r.Put("/{id}", app.notImpletedYetHandler("editMovie"))
-			r.Delete("/{id}", app.notImpletedYetHandler("deleteMovie"))
+			r.Get("/{id}", app.notImplementedYetHandler("showMovie"))
+			r.Put("/{id}", app.notImplementedYetHandler("editMovie"))
+			r.Delete("/{id}", app.notImplementedYetHandler("deleteMovie"))
 		})
 	})
 
