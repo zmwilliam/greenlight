@@ -21,6 +21,9 @@ func (application) notImplementedYetHandler(handlerName string) http.HandlerFunc
 func (app application) routes() chi.Router {
 	r := chi.NewRouter()
 
+	r.NotFound(app.notFoundResponse)
+	r.MethodNotAllowed(app.methodNotAllowedResponse)
+
 	r.Route("/api/v1", func(r chi.Router) {
 		r.Get("/healthcheck", app.healthcheckHandler)
 
