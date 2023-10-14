@@ -24,7 +24,7 @@ func (app application) showMovieHandler(w http.ResponseWriter, r *http.Request) 
 		Version:   1,
 	}
 
-	if err := app.writeJSON(w, movie); err != nil {
+	if err := app.writeJSON(w, envelope{"movie": movie}); err != nil {
 		app.writeError(w, http.StatusInternalServerError)
 	}
 }
