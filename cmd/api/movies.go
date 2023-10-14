@@ -10,7 +10,7 @@ import (
 func (app application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
 	id, err := app.readIDParam(r)
 	if err != nil {
-		app.writeError(w, http.StatusNotFound)
+		app.notFoundResponse(w, r)
 		return
 	}
 
@@ -24,7 +24,7 @@ func (app application) showMovieHandler(w http.ResponseWriter, r *http.Request) 
 		Version:   1,
 	}
 
-	if err := app.writeJSON(w, envelope{"movie": movie}); err != nil {
-		app.writeError(w, http.StatusInternalServerError)
+	if err := app.writeJSON(w, http.StatusOK, envelope{"movie": movie}); err != nil {
+		app.serverErrorResponse(w, r, err)
 	}
 }
