@@ -29,7 +29,7 @@ func (app application) routes() chi.Router {
 
 		r.Route("/movies", func(r chi.Router) {
 			r.Get("/", app.notImplementedYetHandler("listMovies"))
-			r.Post("/", app.notImplementedYetHandler("createMovie"))
+			r.Post("/", app.createMovieHandler)
 
 			r.Get("/{id}", app.showMovieHandler)
 			r.Put("/{id}", app.notImplementedYetHandler("editMovie"))
