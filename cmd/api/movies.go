@@ -26,7 +26,7 @@ func (app application) showMovieHandler(w http.ResponseWriter, r *http.Request) 
 		Version:   1,
 	}
 
-	if err := app.writeJSON(w, http.StatusOK, envelope{"movie": movie}); err != nil {
+	if err := app.writeJSON(w, http.StatusOK, envelope{"movie": movie}, nil); err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
 }
@@ -58,5 +58,16 @@ func (app application) createMovieHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	fmt.Fprintf(w, "%+v\n", input)
+	err = app.models.Movies.Insert(movie)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+	headers := make(http.Header)
+	headers.Set("Location", fmt.Sprintf("/api/v1/movies/%d", movie.ID))
+	err = app.writeJSON(w, http.StatusCreated, envelope{"movie": movie}, headers)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
 }

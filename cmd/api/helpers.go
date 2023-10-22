@@ -22,10 +22,19 @@ func (application) readIDParam(r *http.Request) (int64, error) {
 	return 0, errors.New("invalid id parameter")
 }
 
-func (application) writeJSON(w http.ResponseWriter, status int, data envelope) error {
+func (application) writeJSON(
+	w http.ResponseWriter,
+	status int,
+	data envelope,
+	headers http.Header,
+) error {
 	js, err := json.Marshal(data)
 	if err != nil {
 		return err
+	}
+
+	for key, values := range headers {
+		w.Header()[key] = values
 	}
 
 	w.Header().Set("Content-Type", "application/json")
