@@ -32,7 +32,7 @@ func (app application) routes() chi.Router {
 			r.Post("/", app.createMovieHandler)
 
 			r.Get("/{id}", app.showMovieHandler)
-			r.Put("/{id}", app.notImplementedYetHandler("editMovie"))
+			r.Put("/{id}", app.updateMovieHandler)
 			r.Delete("/{id}", app.notImplementedYetHandler("deleteMovie"))
 		})
 	})
