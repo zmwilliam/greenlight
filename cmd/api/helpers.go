@@ -43,7 +43,7 @@ func (application) writeJSON(
 	return nil
 }
 
-func (app application) readJSON(w http.ResponseWriter, r *http.Request, dest interface{}) error {
+func (app application) readJSON(w http.ResponseWriter, r *http.Request, dest any) error {
 	max_bytes := 1_048_567
 	r.Body = http.MaxBytesReader(w, r.Body, int64(max_bytes))
 

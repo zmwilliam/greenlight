@@ -33,6 +33,7 @@ func (app application) routes() chi.Router {
 
 			r.Get("/{id}", app.showMovieHandler)
 			r.Put("/{id}", app.updateMovieHandler)
+			r.Patch("/{id}", app.patchMovieHandler)
 			r.Delete("/{id}", app.deleteMovieHandler)
 		})
 	})
