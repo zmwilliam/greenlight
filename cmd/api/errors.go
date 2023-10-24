@@ -13,7 +13,7 @@ func (app *application) errorResponse(
 	w http.ResponseWriter,
 	r *http.Request,
 	status int,
-	message interface{},
+	message any,
 ) {
 	data := envelope{"error": message}
 
@@ -50,4 +50,9 @@ func (app *application) failedValidationResponse(
 	errors map[string]string,
 ) {
 	app.errorResponse(w, r, http.StatusUnprocessableEntity, errors)
+}
+
+func (app *application) editConflictResponse(w http.ResponseWriter, r *http.Request) {
+	msg := "unable to update the record due to an edit conflit, please try again"
+	app.errorResponse(w, r, http.StatusConflict, msg)
 }
