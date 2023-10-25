@@ -4,10 +4,87 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
+	"strconv"
+	"strings"
 
 	"github.com/zmwilliam/greenlight/internal/data"
 	"github.com/zmwilliam/greenlight/internal/validator"
 )
+
+const (
+	defaultPageNum  = 1
+	defaultPageSize = 20
+)
+
+type QueryParams struct {
+	params url.Values
+}
+
+func (q QueryParams) GetString(key, defaultValue string) string {
+	if s := q.params.Get(key); s != "" {
+		return s
+	}
+	return defaultValue
+}
+
+func (q QueryParams) GetCSV(key string, defaultValue []string) []string {
+	if s := q.params.Get(key); s != "" {
+		return strings.Split(s, ",")
+	}
+
+	return defaultValue
+}
+
+func (q QueryParams) GetInt(key string, defaultValue int) (int, error) {
+	s := q.params.Get(key)
+	if s == "" {
+		return defaultValue, nil
+	}
+
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		return defaultValue, err
+	}
+
+	return i, nil
+}
+
+func NewQueryParams(r *http.Request) QueryParams {
+	return QueryParams{params: r.URL.Query()}
+}
+
+func (app application) listMoviesHandler(w http.ResponseWriter, r *http.Request) {
+	var input struct {
+		Title  string
+		Genres []string
+		data.Filters
+	}
+
+	var err error
+	v := validator.New()
+	qs := NewQueryParams(r)
+
+	input.Title = qs.GetString("title", "")
+	input.Genres = qs.GetCSV("genres", []string{})
+	if input.Filters.Page, err = qs.GetInt("page", defaultPageNum); err != nil {
+		v.AddError("page", "invalid query param, must be integer")
+	}
+	if input.Filters.PageSize, err = qs.GetInt("page_size", defaultPageSize); err != nil {
+		v.AddError("page_size", "invalid query param, must be integer")
+	}
+	input.Filters.Sort = qs.GetString("sort", "id")
+	input.Filters.SortSafelist = []string{
+		"id", "title", "year", "runtime", "-id", "-title", "-year", "-runtime",
+	}
+
+	if input.Filters.Validate(v); !v.Valid() {
+		app.failedValidationResponse(w, r, v.Errors)
+		return
+	}
+
+	fmt.Fprintf(w, "%+v\n", input)
+}
 
 func (app application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
 	id, err := app.readIDParam(r)
