@@ -1,0 +1,261 @@
+[
+  {
+    "title": "The Shawshank Redemption",
+    "year": 1994,
+    "runtime": 142,
+    "genres": ["Drama"]
+  },
+  {
+    "title": "The Godfather",
+    "year": 1972,
+    "runtime": 175,
+    "genres": ["Crime", "Drama"]
+  },
+  {
+    "title": "Pulp Fiction",
+    "year": 1994,
+    "runtime": 154,
+    "genres": ["Crime", "Drama"]
+  },
+  {
+    "title": "The Dark Knight",
+    "year": 2008,
+    "runtime": 152,
+    "genres": ["Action", "Crime", "Drama"]
+  },
+  {
+    "title": "Forrest Gump",
+    "year": 1994,
+    "runtime": 142,
+    "genres": ["Drama", "Romance"]
+  },
+  {
+    "title": "The Matrix",
+    "year": 1999,
+    "runtime": 136,
+    "genres": ["Action", "Sci-Fi"]
+  },
+  {
+    "title": "Inception",
+    "year": 2010,
+    "runtime": 148,
+    "genres": ["Action", "Adventure", "Sci-Fi"]
+  },
+  {
+    "title": "Gladiator",
+    "year": 2000,
+    "runtime": 155,
+    "genres": ["Action", "Adventure", "Drama"]
+  },
+  {
+    "title": "The Silence of the Lambs",
+    "year": 1991,
+    "runtime": 118,
+    "genres": ["Crime", "Drama", "Thriller"]
+  },
+  {
+    "title": "The Departed",
+    "year": 2006,
+    "runtime": 151,
+    "genres": ["Crime", "Drama", "Thriller"]
+  },
+  {
+    "title": "The Lion King",
+    "year": 1994,
+    "runtime": 88,
+    "genres": ["Animation", "Adventure", "Drama"]
+  },
+  {
+    "title": "Avatar",
+    "year": 2009,
+    "runtime": 162,
+    "genres": ["Action", "Adventure", "Fantasy"]
+  },
+  {
+    "title": "Titanic",
+    "year": 1997,
+    "runtime": 195,
+    "genres": ["Drama", "Romance"]
+  },
+  {
+    "title": "Star Wars: Episode IV - A New Hope",
+    "year": 1977,
+    "runtime": 121,
+    "genres": ["Action", "Adventure", "Fantasy"]
+  },
+  {
+    "title": "Jurassic Park",
+    "year": 1993,
+    "runtime": 127,
+    "genres": ["Action", "Adventure", "Sci-Fi"]
+  },
+  {
+    "title": "E.T. the Extra-Terrestrial",
+    "year": 1982,
+    "runtime": 115,
+    "genres": ["Family", "Sci-Fi"]
+  },
+  {
+    "title": "Schindler's List",
+    "year": 1993,
+    "runtime": 195,
+    "genres": ["Biographical", "Drama", "History"]
+  },
+  {
+    "title": "Inglourious Basterds",
+    "year": 2009,
+    "runtime": 153,
+    "genres": ["Adventure", "Drama", "War"]
+  },
+  {
+    "title": "Goodfellas",
+    "year": 1990,
+    "runtime": 146,
+    "genres": ["Biographical", "Crime", "Drama"]
+  },
+  {
+    "title": "Saving Private Ryan",
+    "year": 1998,
+    "runtime": 169,
+    "genres": ["Drama", "War"]
+  },
+  {
+    "title": "The Green Mile",
+    "year": 1999,
+    "runtime": 189,
+    "genres": ["Crime", "Drama", "Fantasy"]
+  },
+  {
+    "title": "The Lord of the Rings: The Fellowship of the Ring",
+    "year": 2001,
+    "runtime": 178,
+    "genres": ["Action", "Adventure", "Drama"]
+  },
+  {
+    "title": "The Lord of the Rings: The Two Towers",
+    "year": 2002,
+    "runtime": 179,
+    "genres": ["Action", "Adventure", "Drama"]
+  },
+  {
+    "title": "The Lord of the Rings: The Return of the King",
+    "year": 2003,
+    "runtime": 201,
+    "genres": ["Action", "Adventure", "Drama"]
+  },
+  { "title": "Fight Club", "year": 1999, "runtime": 139, "genres": ["Drama"] },
+  {
+    "title": "The Great Gatsby",
+    "year": 2013,
+    "runtime": 143,
+    "genres": ["Drama", "Romance"]
+  },
+  {
+    "title": "The Avengers",
+    "year": 2012,
+    "runtime": 143,
+    "genres": ["Action", "Adventure", "Sci-Fi"]
+  },
+  {
+    "title": "The Revenant",
+    "year": 2015,
+    "runtime": 156,
+    "genres": ["Adventure", "Biographical", "Drama"]
+  },
+  {
+    "title": "The Wolf of Wall Street",
+    "year": 2013,
+    "runtime": 180,
+    "genres": ["Biographical", "Comedy", "Crime"]
+  },
+  {
+    "title": "Gone with the Wind",
+    "year": 1939,
+    "runtime": 238,
+    "genres": ["Drama", "History", "Romance"]
+  },
+  {
+    "title": "The Sound of Music",
+    "year": 1965,
+    "runtime": 174,
+    "genres": ["Biographical", "Drama", "Family"]
+  },
+  {
+    "title": "Die Hard",
+    "year": 1988,
+    "runtime": 132,
+    "genres": ["Action", "Thriller"]
+  },
+  {
+    "title": "The Social Network",
+    "year": 2010,
+    "runtime": 120,
+    "genres": ["Biographical", "Drama"]
+  },
+  {
+    "title": "The Lion King",
+    "year": 1994,
+    "runtime": 88,
+    "genres": ["Animation", "Adventure", "Drama"]
+  },
+  {
+    "title": "Avatar",
+    "year": 2009,
+    "runtime": 162,
+    "genres": ["Action", "Adventure", "Fantasy"]
+  },
+  {
+    "title": "Titanic",
+    "year": 1997,
+    "runtime": 195,
+    "genres": ["Drama", "Romance"]
+  },
+  {
+    "title": "Star Wars: Episode IV - A New Hope",
+    "year": 1977,
+    "runtime": 121,
+    "genres": ["Action", "Adventure", "Fantasy"]
+  },
+  {
+    "title": "Jurassic Park",
+    "year": 1993,
+    "runtime": 127,
+    "genres": ["Action", "Adventure", "Sci-Fi"]
+  },
+  {
+    "title": "E.T. the Extra-Terrestrial",
+    "year": 1982,
+    "runtime": 115,
+    "genres": ["Family", "Sci-Fi"]
+  },
+  {
+    "title": "Schindler's List",
+    "year": 1993,
+    "runtime": 195,
+    "genres": ["Biographical", "Drama", "History"]
+  },
+  {
+    "title": "Inglourious Basterds",
+    "year": 2009,
+    "runtime": 153,
+    "genres": ["Adventure", "Drama", "War"]
+  },
+  {
+    "title": "Goodfellas",
+    "year": 1990,
+    "runtime": 146,
+    "genres": ["Biographical", "Crime", "Drama"]
+  },
+  {
+    "title": "Saving Private Ryan",
+    "year": 1998,
+    "runtime": 169,
+    "genres": ["Drama", "War"]
+  },
+  {
+    "title": "The Green Mile",
+    "year": 1999,
+    "runtime": 189,
+    "genres": ["Crime", "Drama"]
+  }
+]
