@@ -47,17 +47,27 @@ type MovieModel struct {
 }
 
 func (m MovieModel) GetAll(title string, genres []string, filters Filters) ([]*Movie, error) {
-	query := fmt.Sprintf(`
-	SELECT id, created_at, title, year, runtime, genres, version
-	FROM movies
-	WHERE (to_tsvector('simple', title) @@ plainto_tsquery('simple', $1) or $1 = '')
-	AND (genres @> $2 or $2 = '{}')
-	ORDER BY %s %s, id ASC`, filters.SortValue(), filters.SortDirection())
+	baseQuery := `
+		SELECT id, created_at, title, year, runtime, genres, version
+		FROM movies
+		WHERE (to_tsvector('simple', title) @@ plainto_tsquery('simple', $1) or $1 = '')
+		AND (genres @> $2 or $2 = '{}')
+		ORDER BY %s %s, id ASC
+		LIMIT $3 OFFSET $4`
+
+	query := fmt.Sprintf(baseQuery, filters.SortValue(), filters.SortDirection())
 
 	ctx, cancel := context.WithTimeout(context.Background(), contextTimeout)
 	defer cancel()
 
-	rows, err := m.DB.QueryContext(ctx, query, title, pq.Array(genres))
+	query_args := []interface{}{
+		title,
+		pq.Array(genres),
+		filters.limit(),
+		filters.offset(),
+	}
+
+	rows, err := m.DB.QueryContext(ctx, query, query_args...)
 	if err != nil {
 		return nil, err
 	}
