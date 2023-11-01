@@ -6,7 +6,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func (app application) routes() (router http.Handler) {
+func (app application) routes() http.Handler {
 	r := chi.NewRouter()
 
 	r.NotFound(app.notFoundResponse)
@@ -29,6 +29,5 @@ func (app application) routes() (router http.Handler) {
 	// adding recover panic middleware,
 	// this can also be done using chi "Recoverer middleware"
 	// https://go-chi.io/#/pages/middleware?id=recoverer
-	router = app.recoverPanic(r)
-	return
+	return app.recoverPanic(app.rateLimit(r))
 }
