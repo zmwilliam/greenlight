@@ -27,6 +27,11 @@ type config struct {
 		maxIdleConns int
 		maxIdleTime  string
 	}
+	limiter struct {
+		rps     float64
+		burst   int
+		enabled bool
+	}
 }
 
 type application struct {
@@ -40,6 +45,7 @@ func main() {
 
 	flag.IntVar(&cfg.port, "port", 4000, "API server port")
 	flag.StringVar(&cfg.env, "env", "dev", "Application environment (dev|stg|prod)")
+
 	flag.StringVar(&cfg.db.dsn, "db-dsn", "postgres://usr:pwd@localhost:5432/db", "PostgreSQL DSN")
 	flag.IntVar(&cfg.db.maxOpenConns, "db-max-open-conns", 25, "PostgreSQL max open connections")
 	flag.IntVar(&cfg.db.maxIdleConns, "db-max-idle-conns", 25, "PostgreSQL max idle connections")
@@ -49,6 +55,16 @@ func main() {
 		"15m",
 		"PostgreSQL max connection idle time",
 	)
+
+	flag.Float64Var(
+		&cfg.limiter.rps,
+		"limiter-rps",
+		2,
+		"Rate limiter maximum requests per second",
+	)
+	flag.IntVar(&cfg.limiter.burst, "limiter-burst", 2, "Rate limiter maximum requests per second")
+	flag.BoolVar(&cfg.limiter.enabled, "limiter-enabled", true, "Enable rate limiter")
+
 	flag.Parse()
 
 	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
