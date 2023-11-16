@@ -24,6 +24,10 @@ func (app application) routes() http.Handler {
 			r.Patch("/{id}", app.patchMovieHandler)
 			r.Delete("/{id}", app.deleteMovieHandler)
 		})
+
+		r.Route("/users", func(r chi.Router) {
+			r.Post("/", app.registerUserHandler)
+		})
 	})
 
 	// adding recover panic middleware,
