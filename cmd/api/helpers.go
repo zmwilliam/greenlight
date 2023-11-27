@@ -100,3 +100,15 @@ func (app application) readJSON(w http.ResponseWriter, r *http.Request, dest any
 
 	return nil
 }
+
+func (app *application) background(fn func()) {
+	go func() {
+		defer func() {
+			if err := recover(); err != nil {
+				app.logger.PrintError(fmt.Errorf("%s", err), nil)
+			}
+		}()
+
+		fn()
+	}()
+}
