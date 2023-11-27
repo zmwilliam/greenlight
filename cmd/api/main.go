@@ -5,12 +5,14 @@ import (
 	"database/sql"
 	"flag"
 	"os"
+	"strconv"
 	"time"
 
 	_ "github.com/lib/pq"
 
 	"github.com/zmwilliam/greenlight/internal/data"
 	"github.com/zmwilliam/greenlight/internal/jsonlog"
+	"github.com/zmwilliam/greenlight/internal/mailer"
 )
 
 const version = "0.0.1"
@@ -29,12 +31,20 @@ type config struct {
 		burst   int
 		enabled bool
 	}
+	smtp struct {
+		host     string
+		port     int
+		username string
+		password string
+		sender   string
+	}
 }
 
 type application struct {
 	config config
 	logger *jsonlog.Logger
 	models data.Models
+	mailer mailer.Mailer
 }
 
 func main() {
@@ -43,7 +53,12 @@ func main() {
 	flag.IntVar(&cfg.port, "port", 4000, "API server port")
 	flag.StringVar(&cfg.env, "env", "dev", "Application environment (dev|stg|prod)")
 
-	flag.StringVar(&cfg.db.dsn, "db-dsn", "postgres://usr:pwd@localhost:5432/db", "PostgreSQL DSN")
+	flag.StringVar(
+		&cfg.db.dsn,
+		"db-dsn",
+		getEnv("GREENLIGHT_DB_DSN", "postgres://usr:pwd@localhost:5432/db"),
+		"PostgreSQL DSN",
+	)
 	flag.IntVar(&cfg.db.maxOpenConns, "db-max-open-conns", 25, "PostgreSQL max open connections")
 	flag.IntVar(&cfg.db.maxIdleConns, "db-max-idle-conns", 25, "PostgreSQL max idle connections")
 	flag.StringVar(
@@ -62,6 +77,33 @@ func main() {
 	flag.IntVar(&cfg.limiter.burst, "limiter-burst", 2, "Rate limiter maximum requests per second")
 	flag.BoolVar(&cfg.limiter.enabled, "limiter-enabled", true, "Enable rate limiter")
 
+	flag.StringVar(
+		&cfg.smtp.host,
+		"smtp-host",
+		getEnv("GREENLIGHT_SMTP_HOST", "smtp.mailtrap.io"),
+		"SMTP host",
+	)
+
+	flag.IntVar(&cfg.smtp.port, "smtp-port", getEnvInt("GREENLIGHT_SMTP_PORT", 25), "SMTP port")
+	flag.StringVar(
+		&cfg.smtp.username,
+		"smtp-username",
+		getEnv("GREENLIGHT_SMTP_USERNAME", "smtp-user"),
+		"SMTP username",
+	)
+	flag.StringVar(
+		&cfg.smtp.password,
+		"smtp-password",
+		getEnv("GREENLIGHT_SMTP_PASSWORD", "smtp-password"),
+		"SMTP password",
+	)
+	flag.StringVar(
+		&cfg.smtp.sender,
+		"smtp-sender",
+		getEnv("GREENLIGHT_SMTP_SENDER", "Greenlight <no-reply@greenlight.zmwilliam.com>"),
+		"SMTP sender",
+	)
+
 	flag.Parse()
 
 	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
@@ -77,6 +119,13 @@ func main() {
 		config: cfg,
 		logger: logger,
 		models: data.NewModels(db),
+		mailer: mailer.New(
+			cfg.smtp.host,
+			cfg.smtp.port,
+			cfg.smtp.username,
+			cfg.smtp.password,
+			cfg.smtp.sender,
+		),
 	}
 
 	err = app.serve()
@@ -108,4 +157,21 @@ func openDB(cfg config) (*sql.DB, error) {
 	}
 
 	return db, nil
+}
+
+func getEnvInt(env_name string, default_val int) int {
+	v, err := strconv.Atoi(os.Getenv(env_name))
+	if err != nil {
+		return default_val
+	}
+
+	return v
+}
+
+func getEnv(env_name, default_val string) string {
+	if v := os.Getenv(env_name); v != "" {
+		return v
+	}
+
+	return default_val
 }
