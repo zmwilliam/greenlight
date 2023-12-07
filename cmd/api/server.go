@@ -31,12 +31,20 @@ func (app *application) serve() error {
 
 		s := <-quit
 
-		app.logger.PrintInfo("shutting down server", map[string]string{"signal": s.String()})
+		app.logger.PrintInfo("caught signal", map[string]string{"signal": s.String()})
 
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
-		shutdownError <- server.Shutdown(ctx)
+		err := server.Shutdown(ctx)
+		if err != nil {
+			shutdownError <- err
+		}
+
+		app.logger.PrintInfo("completing background tasks", map[string]string{"addr": server.Addr})
+
+		app.wg.Wait()
+		shutdownError <- nil
 	}()
 
 	app.logger.PrintInfo(

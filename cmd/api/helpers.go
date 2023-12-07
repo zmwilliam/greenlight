@@ -14,7 +14,7 @@ import (
 
 type envelope map[string]interface{}
 
-func (application) readIDParam(r *http.Request) (int64, error) {
+func (*application) readIDParam(r *http.Request) (int64, error) {
 	idParam := chi.URLParam(r, "id")
 	if id, err := strconv.ParseInt(idParam, 10, 64); err == nil {
 		return id, nil
@@ -22,7 +22,7 @@ func (application) readIDParam(r *http.Request) (int64, error) {
 	return 0, errors.New("invalid id parameter")
 }
 
-func (application) writeJSON(
+func (*application) writeJSON(
 	w http.ResponseWriter,
 	status int,
 	data envelope,
@@ -43,7 +43,7 @@ func (application) writeJSON(
 	return nil
 }
 
-func (app application) readJSON(w http.ResponseWriter, r *http.Request, dest any) error {
+func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dest any) error {
 	max_bytes := 1_048_567
 	r.Body = http.MaxBytesReader(w, r.Body, int64(max_bytes))
 
@@ -102,7 +102,11 @@ func (app application) readJSON(w http.ResponseWriter, r *http.Request, dest any
 }
 
 func (app *application) background(fn func()) {
+	app.wg.Add(1)
+
 	go func() {
+		defer app.wg.Done()
+
 		defer func() {
 			if err := recover(); err != nil {
 				app.logger.PrintError(fmt.Errorf("%s", err), nil)
