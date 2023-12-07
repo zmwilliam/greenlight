@@ -9,11 +9,11 @@ run: ## run the cmd/api application
 
 migrations-up: confirm ## apply all up datadase migrations
 	@echo 'Running up migrations...'
-	migrate -path ./migrations -database ${DB_DSN} up
+	migrate -path ./migrations -database ${GREENLIGHT_DB_DSN} up
 
 migrations-down: confirm ## apply all down datadase migrations
 	@echo 'Running down migrations...'
-	migrate -path ./migrations -database ${DB_DSN} down
+	migrate -path ./migrations -database ${GREENLIGHT_DB_DSN} down
 
 migrations-new: ## name=$1: create a new database migration
 	@echo 'Creating migration files for ${names}...'
