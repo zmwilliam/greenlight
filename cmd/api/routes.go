@@ -6,7 +6,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func (app application) routes() http.Handler {
+func (app *application) routes() http.Handler {
 	r := chi.NewRouter()
 
 	r.NotFound(app.notFoundResponse)
@@ -27,6 +27,7 @@ func (app application) routes() http.Handler {
 
 		r.Route("/users", func(r chi.Router) {
 			r.Post("/", app.registerUserHandler)
+			r.Put("/activated", app.activateUserHandler)
 		})
 	})
 
