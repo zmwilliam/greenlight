@@ -9,6 +9,10 @@ import (
 func (app *application) routes() http.Handler {
 	r := chi.NewRouter()
 
+	r.Use(app.recoverPanic)
+	r.Use(app.rateLimit)
+	r.Use(app.authenticate)
+
 	r.NotFound(app.notFoundResponse)
 	r.MethodNotAllowed(app.methodNotAllowedResponse)
 
@@ -33,8 +37,5 @@ func (app *application) routes() http.Handler {
 		r.Post("/tokens/authentication", app.createAuthTokenHandler)
 	})
 
-	// adding recover panic middleware,
-	// this can also be done using chi "Recoverer middleware"
-	// https://go-chi.io/#/pages/middleware?id=recoverer
-	return app.recoverPanic(app.rateLimit(r))
+	return r
 }
