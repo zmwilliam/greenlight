@@ -29,6 +29,8 @@ func (app *application) routes() http.Handler {
 			r.Post("/", app.registerUserHandler)
 			r.Put("/activated", app.activateUserHandler)
 		})
+
+		r.Post("/tokens/authentication", app.createAuthTokenHandler)
 	})
 
 	// adding recover panic middleware,
