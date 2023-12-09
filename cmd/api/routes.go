@@ -20,6 +20,7 @@ func (app *application) routes() http.Handler {
 		r.Get("/healthcheck", app.healthcheckHandler)
 
 		r.Route("/movies", func(r chi.Router) {
+			r.Use(app.requireActivatedUser)
 			r.Get("/", app.listMoviesHandler)
 			r.Post("/", app.createMovieHandler)
 
