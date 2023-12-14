@@ -10,6 +10,7 @@ func (app *application) routes() http.Handler {
 	r := chi.NewRouter()
 
 	r.Use(app.recoverPanic)
+	r.Use(app.enableCORS)
 	r.Use(app.rateLimit)
 	r.Use(app.authenticate)
 
