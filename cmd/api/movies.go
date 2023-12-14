@@ -54,7 +54,7 @@ func NewQueryParams(r *http.Request) QueryParams {
 	return QueryParams{params: r.URL.Query()}
 }
 
-func (app application) listMoviesHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) listMoviesHandler(w http.ResponseWriter, r *http.Request) {
 	var input struct {
 		Title  string
 		Genres []string
