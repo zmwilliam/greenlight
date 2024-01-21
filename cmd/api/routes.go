@@ -1,6 +1,7 @@
 package main
 
 import (
+	"expvar"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -39,6 +40,8 @@ func (app *application) routes() http.Handler {
 
 		r.Post("/tokens/authentication", app.createAuthTokenHandler)
 	})
+
+	r.Handle("/debug/vars", expvar.Handler())
 
 	return r
 }
